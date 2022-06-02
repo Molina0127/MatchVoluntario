@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class UsuariosController extends Controller
+{
+    public function create() {
+        return view('site.usuarios.create');
+    }
+
+    public function store(Request $request) {
+        Usuario::create([
+            'nome'=> $request-> nome,
+            'sobrenome'=> $request-> sobrenome,
+            'email'=> $request-> email,
+            'datanasc'=> $request-> datanasc,
+            'cpf'=> $request-> cpf,
+            'senha'=> $request-> senha
+        ]);
+        return 'Usuario';
+    }
+
+    public function show() {
+        // $usuarios = Usuario::all();
+        // return view('', ['' => $usuarios])
+    }
+
+    public function destroy($id){
+        $usuario = Usuario::findOrFail($id);
+        $usuario -> delete();
+        return "Usuario deletado por sucesso";
+    }
+    
+    public function edit($id){
+        $usuario = Uusario::findOrFail($id);
+        return view('', ['usuario' => $usuario]);
+    }
+
+    public function update(Request $request, $id){
+        $usuario = Usuario::findOrFail($id);
+        $usuario->update([
+            'nome'=> $request-> nome,
+            'sobrenome'=> $request-> sobrenome,
+            'email'=> $request-> email,
+            'datanasc'=> $request-> datanasc,
+            'cpf'=> $request-> cpf,
+            'senha'=> $request-> senha
+        ]);
+        return "Usuario atualizado";
+    }
+}
