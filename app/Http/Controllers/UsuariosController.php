@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Usuario;
 
 class UsuariosController extends Controller
 {
     public function create() {
-        return view('site.usuarios.create');
+        return view('site.usuarios.register');
     }
 
     public function store(Request $request) {
@@ -19,13 +21,13 @@ class UsuariosController extends Controller
             'cpf'=> $request-> cpf,
             'senha'=> $request-> senha
         ]);
-        return 'Usuario';
+        return "Usuario";
     }
 
-    public function show() {
-        // $usuarios = Usuario::all();
-        // return view('', ['' => $usuarios])
-    }
+    // public function show() {
+    //     $usuarios = Usuario::all();
+    //     return view('', ['' => $usuarios])
+    // }
 
     public function destroy($id){
         $usuario = Usuario::findOrFail($id);
