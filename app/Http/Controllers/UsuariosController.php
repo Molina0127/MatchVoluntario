@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Usuario;
 
 class UsuariosController extends Controller
 {
     public function create() {
-        return view('site.usuarios.create');
+        return view('site.usuarios.register');
     }
 
     public function store(Request $request) {
