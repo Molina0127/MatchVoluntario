@@ -17,7 +17,7 @@
         <form action="{{ route('saveOng')}}" method="post">
         @csrf
             <div><label for="nome">Nome</label><input type="text" name="nome" id="nome"></div>
-            <div><label for="cnpj">CNPJ</label><input type="text" name="cnpj" id="cnpj"></div>
+            <div><label for="cnpj">CNPJ</label><input type="number" name="cnpj" id="cnpj"></div>
             <div><label for="proprietario">Proprietario</label><input type="text" name="proprietario" id="proprietario"></div>
             <button type="submit">Salvar</button>
             

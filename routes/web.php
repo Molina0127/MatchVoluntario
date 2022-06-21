@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('site.usuarios.index');
 });
 
+Route::get('/teste', 'App\Http\Controllers\ApiController@index');
+
 Route::get('/home', 'App\Http\Controllers\UsersController@create');
 
 Route::get('/create/user', 'App\Http\Controllers\UsuariosController@create')->name('createUser');
