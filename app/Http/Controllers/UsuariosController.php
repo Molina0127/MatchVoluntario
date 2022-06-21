@@ -3,10 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-<<<<<<< HEAD
-=======
-use Illuminate\Database\Eloquent\Model;
->>>>>>> 825d0f74beafa6bd44dc71841a56c4b8aea81b54
 use App\Models\Usuario;
 
 class UsuariosController extends Controller
