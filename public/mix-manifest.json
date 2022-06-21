@@ -1,4 +1,13 @@
 {
+<<<<<<< HEAD
+=======
+    "/site/js/bootstrap.min.js": "/site/js/bootstrap.min.js",
+    "/site/js/coruja.carrossel.min.js": "/site/js/coruja.carrossel.min.js",
+    "/site/js/data.js": "/site/js/data.js",
+    "/site/js/isótopo.pkgd.min.js": "/site/js/isótopo.pkgd.min.js",
+    "/site/js/main.js": "/site/js/main.js",
+    "/site/js/script.js": "/site/js/script.js",
+>>>>>>> 825d0f74beafa6bd44dc71841a56c4b8aea81b54
     "/site/css/bootstrap.min.css": "/site/css/bootstrap.min.css",
     "/site/css/config.css": "/site/css/config.css",
     "/site/css/custom.css": "/site/css/custom.css",
