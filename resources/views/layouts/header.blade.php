@@ -10,12 +10,12 @@
     />
 
     <a href="https://storyset.com/social-media"></a>
-    <link rel="stylesheet" href="css/owl/owl.carousel.min.css" />
-    <link rel="stylesheet" href="css/owl/owl.theme.default.min.css" />
-    <link rel="stylesheet" href="{{ asset('site/css/magnific-popup.css')}}" />
-    <link rel="stylesheet" href="{{ asset('site/css/main.css')}}" />
+    <link rel="stylesheet" href="{{ secure_asset('css/owl/owl.carousel.min.css')}}" />
+    <link rel="stylesheet" href="{{ secure_asset('css/owl/owl.theme.default.min.css')}}" />
+    <link rel="stylesheet" href="{{ secure_asset('site/css/magnific-popup.css')}}" />
+    <link rel="stylesheet" href="{{ secure_asset('site/css/main.css')}}" />
     
-    <link rel="stylesheet" href="{{ asset('site/css/style.css')}}"/>
+    <link rel="stylesheet" href="{{ secure_asset('site/css/style.css')}}"/>
 
     <title>Match Voluntário</title>
   </head>

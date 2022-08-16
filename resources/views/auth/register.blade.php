@@ -14,7 +14,7 @@
             <div class="main-login">
                 <div class="left-login">
                     <h1>Cadastre-se aqui!</h1>
-                    <img src="{{ asset('site/img/img_register.svg')}}" class="image" alt="animação">
+                    <img src="{{ secure_asset('site/img/img_register.svg')}}" class="image" alt="animação">
                 </div>
                 <div class="right-login">
                     <div class="card-login">
@@ -112,7 +112,7 @@
 </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('site/js/data.js')}}"></script>
+    <script src="{{ secure_asset('site/js/data.js')}}"></script>
 
 </body>
 </html>

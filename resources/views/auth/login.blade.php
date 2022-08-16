@@ -14,7 +14,7 @@
             <div class="main-login">
                 <div class="left-login">
             <h1>Faça login e dê match!</h1>
-            <img src="{{ asset('site/img/img_login.svg') }}" class="image" alt="animação">
+            <img src="{{ secure_asset('site/img/img_login.svg') }}" class="image" alt="animação">
         </div>
         <div class="right-login">
             <div class="card-login">
