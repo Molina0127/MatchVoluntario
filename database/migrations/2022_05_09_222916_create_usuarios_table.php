@@ -21,6 +21,9 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->date('datanasc');
             $table->string('cpf');
+            $table->string('cidade');
+            $table->char('estado');
+            $table->string('cep');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

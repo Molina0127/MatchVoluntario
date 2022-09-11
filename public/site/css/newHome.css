@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Outfit:wght@300;400;600&family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --background-color: #eb4614;
+    --background-color-unfocused: #ff683ad0;
+    --shadow-color-unfocused: #ff6638db;
+    --strong-red:#f32323;
+    --light-red:#fd5068;
+    --several-light-orange: #ee6f48;
+    --light-orange: #f65f31;
+    --primary: #e90c0c;
+    --primary-dark: #fc061a;
+    --primary-light: #f23535;
+    --secondary: #214d80;
+    --light: #f0f0f0;
+    --medium: #cacaca;
+    --medium-lighter: #dedede;
+    --medium-several-lighter: #efefeff6;
+    --dark: #a2a2a2;
+    --several-light: #fff7f7e4;
+    --text-shadow: #353434f4;
+    --short-red: #fc061b;
+
+}
+
+:root {
+    --swiper-theme-color: #0d1014;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+body {
+    padding-bottom: 0;
+}
+
+section.first-section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(
+        #dc4c32, 
+        var(--primary-light)
+    );
+}
+
+.swiper {
+    width: 500px;
+}
+
+section .card .image {
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
+    padding: 3px;
+    background: #7d7d7d;
+}
+
+section .card .image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #fff;
+}
+
+.card {
+    border: none;
+    position: relative; 
+    background-color: #fff;
+    border-radius: 20px;
+    margin: 20px 0;
+    width: 280px;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    height: 35%;
+    width: 100%;
+    
+    background-color: hsla(0, 2%, 26%, 0.895);
+    
+
+    border-radius: 20px 20px 0 0;
+}
+
+.card .card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    position: relative;
+    z-index: 100;
+}
+
+.card .media-icons {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card .media-icons img {
+    height: 20px;
+    margin-top: 10px;
+    /* color: #fff; */
+    opacity: 0.6;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.card .media-icons img:hover {
+    opacity: 1;
+}
+
+.card .information {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1;
+    color: #333;
+}
+
+.information .card-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    color: #333;
+}
+
+.information .card-owner {
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: 5px;
+}
+
+.information .card-description {
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    margin-top: 18px;
+    width: 50%; 
+}
+
+.button .learnMore {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    margin-top: 20px;
+    background-color: #dc4c32;
+    outline: none;
+    border: none;
+    color: #fef8f8;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.button .learnMore:hover {
+    background-color: #f15b40;
+}
+
+.button .learnMore a {
+    text-decoration: none;
+    color: #fef8f8;
+}
+
+.swiper-pagination {
+    position: relative !important;
+}
+
+.swiper-button-prev, .swiper-rtl .swiper-button-next {
+    top: 90%;
+    left: 40px;
+}
+
+.swiper-button-next, .swiper-rtl .swiper-button-prev {
+    top: 90%;
+    right: 40px;
+}
+
+#app main.py-4 {
+    padding-top: 2rem !important;
+    padding-left: 4rem !important;
+    padding-right: 4rem;
+}
+
+#search-container h3 {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+

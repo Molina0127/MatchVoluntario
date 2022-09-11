@@ -42,11 +42,12 @@ class OngsController extends Controller
         Ong::create([
             'cnpj' => $request-> cnpj,
             'ong_name' => $request-> ong_name,
+            'ong_image' => $request-> ong_image,
             'owner' => $request-> owner,
             'description' => $request->description,
             'ong_city' => $request->ong_city,
             'ong_state' => $request->ong_state,
-            'ong_cep' => $request->ong_name,
+            'ong_cep' => $request->ong_cep,
             'password' => $request->password
         ]);
         return view('home');
@@ -55,41 +56,53 @@ class OngsController extends Controller
         return view ('site.ongs.login');
     }
     public function save(Request $request){
-
-        $request->validate([
-            'cnpj'=>'required|cnpj|formato_cnpj|unique:ongs',
-            'ong_name'=>'required|unique:ongs|max:255|string',
-            'owner'=>'required|regex:/^[\p{L}\s-]+$/u|max:60',
-            'description'=>'required|regex:/^[\p{L}\s-]+$/u|max:255',
-            'ong_city'=>'required|regex:/^[\p{L}\s-]+$/u|max:60',
-            'ong_state'=>'required|uf',
-            'ong_cep'=>'required|formato_cep',
-            'password' => [
-                'required','string',
-                Password::min(8)->letters()->numbers()->mixedCase()->symbols()
+            $request->validate([
+                'cnpj'=>'required|cnpj|formato_cnpj|unique:ongs',
+                'ong_name'=>'required|unique:ongs|max:255|string',
+                'owner'=>'required|regex:/^[\p{L}\s-]+$/u|max:60',
+                'description'=>'required|string',
+                'ong_city'=>'required|regex:/^[\p{L}\s-]+$/u|max:60',
+                'ong_state'=>'required',
+                'ong_cep'=>'required',
+                'password' => [
+                    'required','string',
+                    Password::min(8)->letters()->numbers()->mixedCase()->symbols()
+                    
+                ],
                 
-            ],
+            ]);
+    
+            $ong = new Ong;   
+            $ong->cnpj = $request->cnpj;
+            $ong->ong_name = $request->ong_name;
+            $ong->ong_image = $request->ong_image;
+            $ong->owner = $request->owner;
+            $ong->description = $request->description;
+            $ong->ong_city = $request->ong_city;
+            $ong->ong_state = $request->ong_state;
+            $ong->ong_cep = $request->ong_cep;
+            $ong->password = Hash:: make ($request->password);
             
-        ]);
+            if($request->hasFile('ong_image') && $request->file('ong_image')->isValid()){
+                $requestImage = $request->ong_image;
 
-        $ong = new Ong;
-        $usuarios = Usuario::all();            
-        $ong->cnpj = $request->cnpj;
-        $ong->ong_name = $request->ong_name;
-        $ong->owner = $request->owner;
-        $ong->description = $request->description;
-        $ong->ong_city = $request->ong_city;
-        $ong->ong_state = $request->ong_state;
-        $ong->ong_cep = $request->ong_name;
-        $ong->password = Hash:: make ($request->password);
-        $save = $ong->save();
-        $ong->categorias()->sync($request->categoria_id, false); 
+                $extension = $requestImage->extension();
 
-        if($save){
-            return 'Cadastro concluído com sucesso';
-        }else {
-            return 'O cadastro não pode ser concluído com sucesso';
-        }
+                $imageName = md5($requestImage->getClientOriginalName() .strtotime("now") . "." .$extension);
+
+                $request->ong_image->move(public_path('img/ongs'), $imageName);
+
+                $ong->ong_image = $imageName;
+            }
+            
+            $save = $ong->save();
+            $ong->categorias()->sync($request->categoria_id, false); 
+    
+            if($save){
+                return back()->with('ong_savemsg', 'Cadastro concluído com sucesso');
+            }else {
+                return 'O cadastro não pode ser concluído com sucesso';
+            }        
 
     }
     public function logoutOng(){
@@ -99,80 +112,158 @@ class OngsController extends Controller
     
     
     public function show(){
-        $user_id = Auth::user()->id;
-        $ongs = Ong::select(
-
-            "ongs.cnpj", 
-
-            "ongs.ong_name",
-
-            "ongs.description", 
-
-            "ongs.ong_city",
-
-            "ongs.ong_state",
-
-            "ongs.ong_cep",
-
-        )
-
-        ->join("categoria_ong", "categoria_ong.ong_id", "=", "ongs.id")
-        ->join("categoria_usuario", "categoria_usuario.categoria_id", "=", "categoria_ong.categoria_id")
-        ->where("categoria_usuario.usuario_id","=", $user_id)
-        ->get();
-        /*$search = request('search');
+        $search = request('search');
 
         if($search){
             $ongs = Ong::where([
-                ['description', 'like', '%'.$search.'%']
+                ['ong_name', 'like', '%'.$search.'%']
             ])->get();
 
         } else {
-            $ongs = Ong::all();
-        }*/
-        return view('home', ['ongs'=> $ongs]);
+            $user_id = Auth::user()->id;
+            $ongs = Ong::select(
+
+                "ongs.*"
+    
+            )
+    
+            ->join("categoria_ong", "categoria_ong.ong_id", "=", "ongs.id")
+            ->join("categoria_usuario", "categoria_usuario.categoria_id", "=", "categoria_ong.categoria_id")
+            ->where("categoria_usuario.usuario_id","=", $user_id)
+            ->get();
+        }
+        return view('home', ['ongs'=> $ongs, 'search' => $search]);
     }
 
     public function showOng($id){
         $ongs = Ong::findOrFail($id);
-        $categoria = Categoria::findOrFail($id);
-        return view('site/ongs/showOng', ['ongs' => $ongs, 'categoria' => $categoria]);
+        
+        $ong_categorias = $ongs->categorias->pluck('categoria_name');
+
+
+        $usuario = auth()->user();
+        $hasUserJoined = false;
+
+        if($usuario){
+            $usuarioOngs = $usuario->ongs;
+            
+            foreach($usuarioOngs as $usuarioOng){
+                if($usuarioOng->id == $id){
+                    $hasUserJoined = true;
+                }
+            }
+        }
+
+    
+
+
+
+        return view('site/ongs/showOng', ['ongs' => $ongs, 'ong_categorias' => $ong_categorias, 'hasUserJoined' => $hasUserJoined]);
     }
     public function showUsuario($id){
+        $ong_logada = Auth::guard('ong')->user();
         $usuarios = Usuario::findOrFail($id);
-        return view('site/usuarios/showUsuario', ['usuarios' => $usuarios]);
+
+        if(!$ong_logada){
+            return view('site.ongs.login');
+        }
+        
+        $ong = Auth::guard('ong')->user();
+
+        $usuario_categorias = $usuarios->categorias->pluck('categoria_name');        
+
+        $hasOngJoined = false;
+
+        if($ong){
+            $ongUsuarios = $ong->usuarios;
+
+            foreach($ongUsuarios as $ongUsuario){
+                if($ongUsuario->id == $id){
+                    $hasOngJoined = true;
+                }
+            }
+        }
+        return view('site/usuarios/showUsuario', ['usuarios' => $usuarios,'usuario_categorias' => $usuario_categorias, 'hasOngJoined' => $hasOngJoined]);
     }
     public function destroy($id){
-        $ong = Ong:: findOrFail($id);
-        $ong->delete();
-        return "Ong excluida com sucesso";
+        $ong_logada = Auth::guard('ong')->user();
+        if($ong_logada){
+            $ong = Ong:: findOrFail($id);
+            $ong->delete();
+            Auth::guard('ong')->logout();
+            return view('site.usuarios.index');
+        }else{
+            return view('site.ongs.login');
+        }
+       
     }
     public function edit($id){
-        $ong = Ong:: findOrFail($id);
-        return view ('site.ongs.edit', ['ong'=> $ong]);
+        $ong_logada_id = Auth::guard('ong')->user()->id;
+
+        if($ong_logada_id == $id){
+            $ong = Ong::find($id);
+            return view('site.ongs.edit', ['ong' => $ong]);
+        }else {
+            return back()->with('notfound_ong', 'Erro! id não pertencente a Ong autenticada');
+        }
+        
     }
     public function update(Request $request, $id){
-        $ong = Ong:: findOrFail($id);
-        $ong->update([
-            'ong_name'=> $request -> ong_name,
-            'owner' => $request -> owner,
-            'ong_city' => $request -> ong_city,
-            'ong_state' => $request -> ong_state,
-        ]);
-        return "Ong atualizada com sucesso";
+       if(!$ong = Ong::find($id))
+       return back();
+
+        $id = $this->id ?? '';
+
+       $request->validate([
+        'ong_name'=>'required', "unique:ongs, {$id}, id", 'max:255', 'string',
+        'owner'=>'regex:/^[\p{L}\s-]+$/u', 'max:60',
+        'description'=>'regex:/^[\p{L}\s-]+$/u', 'max:255',
+        'password' => [
+            'nullable','string',
+            Password::min(8)->letters()->numbers()->mixedCase()->symbols()
+            
+        ],
+    ]);
+    $data_ong = $request->only('ong_name');
+    if($request->password)
+        $data_ong['password'] = bcrypt($request->password);
+    if($request->owner)
+        $data_ong['owner'] = $request->owner;
+    if($request->description)
+        $data_ong['description'] = $request->description;
+    if($request->ong_city)
+        $data_ong['ong_city'] = $request->ong_city;
+    if($request->ong_state)
+        $data_ong['ong_state'] = $request->ong_state;
+    if($request->ong_cep)
+        $data_ong['ong_cep'] = $request->ong_cep;
+
+        $ong->update($data_ong);
+
+        return view('site.usuarios.dashboard')->with('ong', $ong )->with('ong_updmsg', 'Ong atualizada com sucesso');
+       
     }
     public function dashboard(){
+        $usuario = auth()->user();
+        return view('site.ongs.dashboard', compact('usuario'));
+
+    }
+    public function ongsasparticipant(){
         $usuario = auth()->user();
 
         $ong = $usuario->ongs();
 
         $ongs = $usuario->ongs;
 
-        return view('site.ongs.dashboard', ['ongs'=> $ong, 'ongs'=> $ongs], compact('usuario'));
+        return view('site.ongs.showMyOngs', ['ongs'=> $ong, 'ongs'=> $ongs], compact('usuario'));
     }
     public function dashboardOng(){
         $ong = Auth::guard('ong')->user();
-        return view('site.usuarios.dashboard', compact('ong'));
+        if($ong){
+            return view('site.usuarios.dashboard', compact('ong'));
+        } else {
+            return view('site.ongs.login');
+        }
     }
 
    public function joinOng($id){
@@ -183,6 +274,16 @@ class OngsController extends Controller
     $ong = Ong:: findOrFail($id);
 
     return redirect('/dashboard')->with('msg', 'obrigado por fazer parte do nosso time!'.$ong->title);
+
+   }
+   public function leaveOng($id){
+        $usuario = auth()->user();
+
+        $usuario->ongs()->detach($id);
+
+        $ong = Ong:: findOrFail($id);
+
+        return back()->with('leaveong', 'Participação removida com sucesso'.$ong->title);
 
    }
 }

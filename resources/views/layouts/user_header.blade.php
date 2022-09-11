@@ -31,6 +31,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
+
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
@@ -54,6 +55,13 @@
                             @endif
 
                             @else
+
+                        <a href="{{route('showVolRequets')}}" style="position:absolute; Left: 400px; margin-top: 20px; margin-left:20px; text-decoration:none;">Meus convites de Ongs
+                            {{App\Models\EntidadeVolunteer::where(['reqstatus'=>null],['vol_acceptor',Auth::user(
+
+                            )->id])->count()}}
+                        </a>
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href=" {{ route('perfilUsuario') }} " role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->nome }}
@@ -83,6 +91,10 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        @yield('card')
+        @yield('register')
+        
     </div>
 </body>
 </html>

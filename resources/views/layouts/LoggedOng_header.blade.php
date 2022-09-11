@@ -42,6 +42,12 @@
                         <!-- Authentication Links -->
                         @guest                        
                             @if(Auth::guard('ong')->check())
+
+                <a href="{{route('showRequests')}}" style="position:absolute; Left: 400px; margin-top: 20px; margin-left:20px; text-decoration:none;">Meus convites de voluntários
+                    {{App\Models\Entidade::where(['status'=>null],['acceptor',Auth::guard('ong')->user(
+
+                    )->id])->count()}}
+                </a>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="{{ route('perfilOng') }}" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ auth()->guard('ong')->user()->ong_name }}
@@ -72,6 +78,7 @@
         <main class="py-4">
             @yield('content')
         </main>
+        @yield('card')
     </div>
 </body>
 </html>

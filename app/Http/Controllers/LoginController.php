@@ -16,17 +16,7 @@ class LoginController extends Controller
             $user_id = Auth::user()->id;
             $ongs = Ong::select(
 
-                "ongs.cnpj", 
-    
-                "ongs.ong_name",
-    
-                "ongs.description", 
-    
-                "ongs.ong_city",
-    
-                "ongs.ong_state",
-    
-                "ongs.ong_cep",
+                "ongs.*"
     
             )
     
@@ -59,17 +49,7 @@ class LoginController extends Controller
             $user_id = Auth::user()->id;
             $ongs = Ong::select(
 
-                "ongs.cnpj", 
-    
-                "ongs.ong_name",
-    
-                "ongs.description", 
-    
-                "ongs.ong_city",
-    
-                "ongs.ong_state",
-    
-                "ongs.ong_cep",
+                "ongs.*"
     
             )
     
@@ -88,15 +68,7 @@ class LoginController extends Controller
             $ong_id = Auth::guard('ong')->user()->id;
             $usuarios = Usuario::select(
 
-                "usuarios.nome", 
-    
-                "usuarios.sobrenome",
-    
-                "usuarios.email", 
-    
-                "usuarios.datanasc",
-    
-                "usuarios.cpf",
+                "usuarios.*"
     
     
             )
@@ -130,15 +102,7 @@ class LoginController extends Controller
             $ong_id = Auth::guard('ong')->user()->id;
             $usuarios = Usuario::select(
 
-                "usuarios.nome", 
-    
-                "usuarios.sobrenome",
-    
-                "usuarios.email", 
-    
-                "usuarios.datanasc",
-    
-                "usuarios.cpf",
+                "usuarios.*"
     
             )
     

@@ -1,5 +1,5 @@
 #ongs-container {
-    padding: 500px;
+    /* padding: 500px; */
 }
 
 #ongs-container h4 {
@@ -11,7 +11,7 @@
 }
 
 #cards-container {
-    display: flex;
+    /* display: flex; */
 }
 
 #cards-container .card {

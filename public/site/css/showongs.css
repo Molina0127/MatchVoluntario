@@ -1,0 +1,128 @@
+/* #ongs-container {
+    padding: 500px;
+} */
+
+:root {
+    --background-color: #eb4614;
+    --background-color-unfocused: #ff683ad0;
+    --shadow-color-unfocused: #ff6638db;
+    --strong-red:#f32323;
+    --light-red:#fd5068;
+    --several-light-orange: #ee6f48;
+    --light-orange: #f65f31;
+    --primary: #e90c0c;
+    --primary-dark: #fc061a;
+    --secondary: #214d80;
+    --light: #f0f0f0;
+    --medium: #cacaca;
+    --medium-lighter: #dedede;
+    --medium-several-lighter: #efefeff6;
+    --dark: #a2a2a2;
+    --several-light: #fff7f7e4;
+    --text-shadow: #353434f4;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main.main-card {
+    height: 65vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--medium-lighter);
+}
+
+main.main-card .card_ongs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+
+    background-color: var(--light);
+    border-radius: 30px;
+}
+
+.card_ongs .image {
+    height: 6.8rem;
+    width: 6.8rem;
+    border-radius: 50%;
+    padding: 3px;
+    background: var(--strong-red);
+}
+
+.card_ongs .image img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--several-light);
+}
+
+main.main-card div.conteudo {
+    background-color: var(--light);
+    border-radius: 20px;
+}
+
+div.conteudo {
+    display: flex;
+    align-items: center;
+}
+
+div.media-icons {
+    display: flex;
+    height: 30px;
+    width: 30px;
+}
+
+/* #ongs-container h4 {
+    margin-bottom:10px;
+}
+
+#ongs-container .subtitle {
+    margin-bottom: 30px;
+}
+
+#cards {
+    display: grid;
+    place-items: center;
+
+}
+
+#cards img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#cards .card {
+
+}
+
+div.container main .card_ongs {
+
+    border: solid 1px black;
+    width: 30%;
+    border-radius: 2rem;
+
+    background-color: linear-gradient(
+    to right, 
+    var(--several-light-orange), 
+    var(--light-orange)
+    ); 
+
+    / background-origin: border-box; /
+    / background-clip: padding-box, border-box; /
+    
+}
+
+div.container main .card_ongs img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} 
+/*

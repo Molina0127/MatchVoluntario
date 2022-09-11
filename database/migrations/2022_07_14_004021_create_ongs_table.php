@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('ongs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('cnpj', 18);
-            $table->string('ong_name', 60);
-            $table->string('owner', 30);
-            $table->string('description', 255);
+            $table->string('cnpj');
+            $table->string('ong_name');
+            $table->string('owner');
+            $table->string('description');
             $table->string('ong_city');
-            $table->char('ong_state', 2);
+            $table->char('ong_state');   
             $table->string('ong_cep');
             $table->string('password');
             $table->timestamps();

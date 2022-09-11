@@ -61,6 +61,7 @@
       </div>
     </div>
     <!--//HEADER-->
+    
 
     <!--SLIDER-->
     <div id="slider" class="block">
@@ -102,8 +103,7 @@
           >
             <h1 class="title">Dê Match</h1>
             <h4 class="subtitle">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque
+              Encontre as melhores oportunidades para você
             </h4>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

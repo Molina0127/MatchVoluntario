@@ -36,9 +36,23 @@
             </div>
         </div>
     </div> -->
+
+    
 </div>
+@endsection
 
+    <div id="search-container" class="col-md-12">
+    <h3>Busque um Voluntário</h3>
+    <form action="/usuarios/ver" method="GET">
+        <input type="text" id="search" name="search" class="form-control" placeholder="Procurar">
+    </form>
+    </div>
 
+    <div id="ongs-container" class="col-md-12">
+        <h4 class="subtitle">Voluntários Cadastrados</h4>
+    </div>
+
+    @section('card')
     <div id="cards-container" class="row">
         @foreach($usuarios as $usuario)
         <div class="card col-md-3">
@@ -55,9 +69,9 @@
         @endforeach
     </div>
 
-
+    @endsection
 </div>
 
 
-@endsection
+
 </html>

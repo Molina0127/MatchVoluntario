@@ -7,7 +7,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ asset('site/css/main.css')}}">
     <link rel="stylesheet" href="{{ asset('site/css/login.css')}}">
+    
     <title>Login</title>
 </head>
 <body>
@@ -36,6 +39,9 @@
                     <input type="password" name="password" placeholder="Digite aqui" value="{{ old ('password') }}">
                     <span class="text-danger">@error ('password') {{$message}} @enderror</span>
                 </div>
+                
+                
+
                 <button class="btn-login">Logar</button>
             </div>
         </div>

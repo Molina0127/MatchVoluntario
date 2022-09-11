@@ -9,6 +9,8 @@ use App\Models\Categoria;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+
 class UsuariosController extends Controller
 {
     public function index()
@@ -26,6 +28,9 @@ class UsuariosController extends Controller
             'nome' => $request-> nome,
             'sobrenome' => $request-> sobrenome,
             'email' => $request-> email,
+            'cidade' => $request->cidade,
+            'estado' => $request->estado,
+            'cep' => $request->cep,
             'datanasc' => $request-> datanasc,
             'cpf' => $request-> cpf,
             'password' => $request-> senha
@@ -33,54 +38,86 @@ class UsuariosController extends Controller
         return view('home');
     }
     public function show(){
-            $ong_id = Auth::guard('ong')->user()->id;
-            $usuarios = Usuario::select(
+        $ong_logada = Auth::guard('ong')->user();
+        if(!$ong_logada){
+            return view('site.ongs.login');
+        }    
+        $search = request('search');
 
-                "usuarios.nome", 
+            if($search){
+                $usuarios = Usuario::where([
+                    ['nome', 'like', '%'.$search.'%']
+                ])->get();
+            }else{
+                $ong_id = Auth::guard('ong')->user()->id;
+                $usuarios = Usuario::select(
     
-                "usuarios.sobrenome",
-    
-                "usuarios.email", 
-    
-                "usuarios.datanasc",
-    
-                "usuarios.cpf",
-    
-    
-            )
-    
-            ->join("categoria_usuario", "categoria_usuario.usuario_id", "=", "usuarios.id")
-            ->join("categoria_ong", "categoria_ong.categoria_id", "=", "categoria_usuario.categoria_id")
-            ->where("categoria_ong.ong_id","=", $ong_id)
-            ->get();
+                    "usuarios.*"
+        
+        
+                )
+        
+                ->join("categoria_usuario", "categoria_usuario.usuario_id", "=", "usuarios.id")
+                ->join("categoria_ong", "categoria_ong.categoria_id", "=", "categoria_usuario.categoria_id")
+                ->where("categoria_ong.ong_id","=", $ong_id)
+                ->get(); 
+            }
         return view('site.ongs.HomeOng', ['usuarios'=> $usuarios]);
     }
     public function destroy($id){
         $usuario = Usuario:: findOrFail($id);
         $usuario->delete();
-        return "Usuario excluido com sucesso";
+        Auth::logout();
+        return view('site.usuarios.index');
     }
     public function edit($id){
-        $usuario = Usuario:: findOrFail($id);
-        return view ('site\usuarios\edit', ['usuario'=> $usuario]);
+        $usuario_logado_id = Auth::user()->id;
+        
+        if($usuario_logado_id == $id){
+            $usuario = Usuario::find($id);
+            return view('site\usuarios\edit', ['usuario'=> $usuario]);
+        }else{
+            return back()->with('notfound_user', 'Erro! id não pertencente ao usuário autenticado');
+        }
+        
+        
+                
+        
+        
     }
     public function update(Request $request, $id){
-        $usuario = Usuario:: findOrFail($id);
-        $usuario->update([
-            'email' => $request -> email
+        if(!$usuario = Usuario::find($id))
+        return back();
 
-        ], [
-            $request->validate([
-                'email' => '|unique:usuarios|email' 
-            ])    
+        $id = $this->id ?? '';
+        
+        $request->validate([
+            'email' => 'required', "unique:usuarios,{$id},id", 'email', 'max:255',
+            'password' => [
+                'nullable','string',
+                Password::min(8)->letters()->numbers()->mixedCase()->symbols()
+                
+            ],
         ]);
-        return "Usuario atualizado com sucesso";
+        
+
+        $data = $request->only('email');
+        if($request->password)
+            $data['password'] = bcrypt($request->password);
+        
+        $usuario->update($data);
+
+        return view('site.ongs.dashboard')->with('usuario', $usuario )->with('user_updtmsg', 'Usuário atualizado com sucesso');
+
     }   
     public function save(Request $request){
         $request->validate([
             'nome' => 'required|alpha|max:45',
             'sobrenome'=>'required|alpha|max:60',
             'email' => 'required|unique:usuarios', 'email', 'max:255',
+            'cidade'=> 'required',
+            'estado' => 'required',
+            'cep' => 'required',
             'datanasc'=>'required|date',
             'cpf'=> 'required|cpf|formato_cpf|unique:usuarios','string',
             'password' => [
@@ -89,20 +126,15 @@ class UsuariosController extends Controller
                 
             ],
             
-        ],[
-            'nome.required' => 'Nome é obrigatório',
-            'sobrenome.required' => 'Sobrenome é obrigatório',
-            'email.required' => 'E-mail é obrigatório',
-            'datanasc.required'=>'Data de nascimento é obrigatório',
-            'cpf.required' => 'CPF é obrigatório',
-            'password.required' => 'Senha é obrigatória'
-
         ]);
 
         $usuario = new Usuario;
         $usuario->nome = $request->nome;
         $usuario->sobrenome = $request->sobrenome;
         $usuario->email = $request->email;
+        $usuario->cidade = $request->cidade;
+        $usuario->estado = $request->estado;
+        $usuario->cep = $request->cep;
         $usuario->datanasc = $request->datanasc;
         $usuario->cpf = $request->cpf;
         $usuario->password = Hash:: make ($request->password);
@@ -110,7 +142,7 @@ class UsuariosController extends Controller
         $usuario->categorias()->sync($request->categoria_id, false);
 
         if($save){
-            return 'Cadastrado concluído com sucesso';
+            return back()->with('user_savemsg', 'Cadastro concluído com sucesso' );
         }else {
             return 'O cadastro não pode ser concluído com sucesso';
         }
@@ -119,6 +151,18 @@ class UsuariosController extends Controller
     public function logout(){
         Auth::logout();
         return view('site.usuarios.index');
+    }
+    public function volunteersparticipants(){
+        $ong = Auth::guard('ong')->user();
+
+        $usuario = $ong->usuarios();
+
+        $usuarios = $ong->usuarios;
+
+
+        return view('site.usuarios.showMyVolunteers', compact('ong', 'usuario', 'usuarios'));
+
+       
     }
     
     public function dashboard(){
@@ -135,4 +179,14 @@ class UsuariosController extends Controller
         return back()->with('msg', 'obrigado por fazer parte do nosso time!'.$usuario->title);
 
     }
+    public function removeVolunteer($id){
+        $ong = Auth::guard('ong')->user();
+ 
+        $ong->usuarios()->detach($id);
+ 
+        $usuario = Usuario::findOrFail($id);
+ 
+         return back()->with('removeVol', 'Voluntário removido com sucesso'.$usuario->title);
+ 
+     }
 }
