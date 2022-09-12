@@ -44,7 +44,14 @@
                         ?>
                         <div class="card-body">
                         
-                        <img src="/img/ongs/{{$showVol->ong_image}}" alt="{{$showVol->ong_image}}">
+                        <div class="image">
+                            @if($showVol->ong_image == null)
+                            <img src="{{ asset('site/img/destaque4.svg') }}" alt="{{ $showVol->ong_name }}">
+                            @else
+                            <img src="/img/ongs/{{$showVol->ong_image}}" alt="{{$showVol->ong_image}}">
+                            @endif
+                        </div>
+
                             <div class="card-body">
                                 <p class="ong-name">Ong:{{$showVol->ong_name}}</p>
                             

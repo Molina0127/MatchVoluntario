@@ -107,7 +107,11 @@
                 <div class="swiper-slide card">
                     <div class="card-content">
                         <div class="image">
+                            @if($ong->ong_image == null)
+                            <img src="{{ asset('site/img/destaque4.svg') }}" alt="{{ $ong->ong_name }}">
+                            @else
                             <img src="/img/ongs/{{$ong->ong_image}}" alt="{{$ong->ong_image}}">
+                            @endif
                         </div>
 
                         <div class="media-icons">

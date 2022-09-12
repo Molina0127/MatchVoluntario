@@ -11,7 +11,7 @@ class Usuario extends Authenticatable
     use HasFactory;
     use \Illuminate\Notifications\Notifiable;
 
-    protected $fillable = ['nome', 'sobrenome', 'email', 'cidade', 'estado', 'cep', 'datanasc', 'cpf', 'password'];
+    protected $fillable = ['nome', 'sobrenome', 'user_image', 'email', 'cidade', 'estado', 'cep', 'datanasc', 'cpf', 'password'];
 
     public function categorias(){
         return $this->belongsToMany(Categoria::class);

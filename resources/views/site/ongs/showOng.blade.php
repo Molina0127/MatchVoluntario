@@ -13,7 +13,7 @@
 
 @section('title', $ongs->title)
 
-<!-- @section('content')
+@section('content')
 
 <div id="ongs-container" class="col-md-12">
         
@@ -32,10 +32,14 @@
     <h4 class="subtitle">Ongs Cadastradas</h4>
     <div id="cards-container" class="row">
         <div class="card col-md-3">
-            <img src="{{ asset('site/img/destaque4.svg') }}" alt="{{ $ongs->ong_name }}">
+        <div class="image">
+            @if($ongs->ong_image == null)
+                <img src="{{ asset('site/img/destaque4.svg') }}" alt="{{ $ongs->ong_name }}">
+            @else
+                <img src="/img/ongs/{{$ongs->ong_image}}" alt="{{$ongs->ong_image}}">
+            @endif
+        </div>
             <div class="card-body"> 
-
-
                 <p class="ong-name">Ong:{{$ongs->ong_name}}</p>
                 <p class="ong-description">Descrição:{{$ongs->description}}</p>
                 <p class="ong-city">Cidade:{{$ongs->ong_city}}</p>
@@ -65,7 +69,7 @@
         </div>
     </div>
 </div>
-@endsection -->
+@endsection
 
 
 </html>

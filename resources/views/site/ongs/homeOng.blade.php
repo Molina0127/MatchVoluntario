@@ -56,7 +56,14 @@
     <div id="cards-container" class="row">
         @foreach($usuarios as $usuario)
         <div class="card col-md-3">
-            <img src="{{ asset('site/img/destaque4.svg') }}" alt="{{ $usuario->nome }}">
+        <div class="image">
+                @if($usuario->user_image == null)
+                    <img src="{{ asset('site/img/destaque4.svg') }}" alt="{{ $usuario->nome }}">
+                @else
+                    <img src="/img/usuarios/{{$usuario->user_image}}" alt="{{$usuario->nome}}">
+                @endif
+            </div>
+
             <div class="card-body">
                 <p class="card-tittle">{{$usuario->nome}}</p>
                 <p class="card-owner">{{$usuario->sobrenome}}</p>

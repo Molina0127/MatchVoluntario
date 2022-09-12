@@ -138,6 +138,19 @@ class UsuariosController extends Controller
         $usuario->datanasc = $request->datanasc;
         $usuario->cpf = $request->cpf;
         $usuario->password = Hash:: make ($request->password);
+        
+        if($request->hasFile('user_image') && $request->file('user_image')->isValid()){
+            $requestImage = $request->user_image;
+
+            $extension = $requestImage->extension();
+
+            $imageName = md5($requestImage->getClientOriginalName() .strtotime("now") . "." .$extension);
+
+            $request->user_image->move(public_path('img/usuarios'), $imageName);
+
+            $usuario->user_image = $imageName;
+        }
+        
         $save = $usuario->save();
         $usuario->categorias()->sync($request->categoria_id, false);
 

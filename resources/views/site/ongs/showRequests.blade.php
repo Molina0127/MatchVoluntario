@@ -44,8 +44,15 @@
 
                         ?>
                         <div class="card-body">
-                        
-                        <img src="{{ asset('site/img/destaque4.svg') }}" alt="{{ $show->nome }}">
+                            
+                            <div class="image">
+                                @if($show->user_image == null)
+                                <img src="{{ asset('site/img/destaque4.svg') }}" alt="{{ $show->nome }}">
+                                @else 
+                                <img src="/img/usuarios/{{$show->user_image}}" alt="{{$show->user_image}}">
+                                @endif
+                            </div>    
+
                             <div class="card-body">
                                 <p class="usuario-nome">Nome:{{$show->nome}}</p>
                             

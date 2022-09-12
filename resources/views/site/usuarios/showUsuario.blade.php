@@ -31,7 +31,13 @@
     <h4 class="subtitle">Voluntários Cadastrados</h4>
     <div id="cards-container" class="row">
         <div class="card col-md-3">
-            <img src="{{ asset('site/img/destaque4.svg') }}" alt="{{ $usuarios->nome }}">
+        <div class="image">
+            @if($usuarios->user_image == null)
+                <img src="{{ asset('site/img/destaque4.svg') }}" alt="{{ $usuarios->nome }}">
+            @else
+                <img src="/img/usuarios/{{$usuarios->user_image}}" alt="{{$usuarios->nome}}">
+            @endif
+        </div>
             <div class="card-body">
                 <p class="usuario-nome">Nome:{{$usuarios->nome}}</p>
                 <p class="usuario-sobrenome">Sobrenome:{{$usuarios->sobrenome}}</p>
