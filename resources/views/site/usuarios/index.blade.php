@@ -10,12 +10,12 @@
     />
 
     <a href="https://storyset.com/social-media"></a>
-    <link rel="stylesheet" href="{{ asset('site/css/owl/owl.carousel.min.css')}}" />
-    <link rel="stylesheet" href="{{ asset('site/css/owl/owl.theme.default.min.css')}}" />
-    <link rel="stylesheet" href="{{ asset('site/css/magnific-popup.css')}}" />
-    <link rel="stylesheet" href="{{ asset('site/css/main.css')}}" />
+    <link rel="stylesheet" href="{{ secure_asset('site/css/owl/owl.carousel.min.css')}}" />
+    <link rel="stylesheet" href="{{ secure_asset('site/css/owl/owl.theme.default.min.css')}}" />
+    <link rel="stylesheet" href="{{ secure_asset('site/css/magnific-popup.css')}}" />
+    <link rel="stylesheet" href="{{ secure_asset('site/css/main.css')}}" />
     
-    <link rel="stylesheet" href="{{ asset('site/css/style.css')}}"/>
+    <link rel="stylesheet" href="{{ secure_asset('site/css/style.css')}}"/>
 
     <title>Match Voluntário</title>
   </head>
@@ -27,7 +27,7 @@
           class="navbar navbar-expand-lg navbar-light justify-content-between"
         >
           <a class="navbar-brand" href="#">
-            <img src="{{ asset('site/img/LogoMatch.svg')}}" class="img-fluid" />
+            <img src="{{ secure_asset('site/img/LogoMatch.svg')}}" class="img-fluid" />
           </a>
           <button
             class="navbar-toggler"
@@ -208,11 +208,11 @@
       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
       crossorigin="anonymous"
     ></script>
-    <script src="{{ asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{ secure_asset('js/bootstrap.min.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('js/isotope.pkgd.min.js') }}"></script>
-    <script src="{{ asset('site/js/magnify/jquery.magnific-popup.min.js') }}"></script>
-    <script src="{{ asset('site/js/main.js') }}"></script>
+    <script src="{{ secure_asset('js/owl.carousel.min.js') }}"></script>
+    <script src="{{ secure_asset('js/isotope.pkgd.min.js') }}"></script>
+    <script src="{{ secure_asset('site/js/magnify/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ secure_asset('site/js/main.js') }}"></script>
   </body>
 </html>
